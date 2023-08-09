@@ -1,6 +1,7 @@
 const { Configuration, OpenAIApi } = require("openai");
 
 const express = require("express");
+const path = require("path")
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -24,9 +25,21 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-app.get("/", (req, res) => {
-  res.send("Running Express API");
-});
+// --------------------------deployment------------------------------
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/dist")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "dist", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+// --------------------------deployment------------------------------
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
