@@ -2,7 +2,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 const express = require("express");
 const path = require("path")
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 require('dotenv').config();
@@ -44,7 +44,6 @@ if (process.env.NODE_ENV === "production") {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
-
 
 app.post("/api", async function (req, res) {
   console.log(req.body);
